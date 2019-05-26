@@ -215,6 +215,7 @@ public class RegistryDirectory<T> extends AbstractDirectory<T> implements Notify
 
         // providers
         List<URL> providerURLs = categoryUrls.getOrDefault(PROVIDERS_CATEGORY, Collections.emptyList());
+        // TODO groupId处理forbidden=false
         refreshOverrideAndInvoker(providerURLs);
     }
 

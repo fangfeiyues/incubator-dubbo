@@ -34,6 +34,11 @@
     <bean id="demoService" class="org.apache.dubbo.demo.provider.DemoServiceImpl"/>
 
     <!-- declare the service interface to be exported -->
+    <!-- dubbo provider 参数使用
+    1.group  服务分组，当一个接口有多个实现，可以用分组区分
+    2.version 当一个接口的实现，出现不兼容升级时，可以用版本号过渡，版本号不同的服务相互间不引用
+    -->
+    <dubbo:provider group="local" />
     <dubbo:service interface="org.apache.dubbo.demo.DemoService" ref="demoService"/>
 
 </beans>
