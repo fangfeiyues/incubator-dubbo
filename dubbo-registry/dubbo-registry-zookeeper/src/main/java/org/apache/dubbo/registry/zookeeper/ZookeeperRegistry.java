@@ -166,6 +166,7 @@ public class ZookeeperRegistry extends FailbackRegistry {
                         urls.addAll(toUrlsWithEmpty(url, path, children));
                     }
                 }
+                // zk 创建 path 后开始通知 -- FailbackRegistry
                 notify(url, listener, urls);
             }
         } catch (Throwable e) {
