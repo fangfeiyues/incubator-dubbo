@@ -50,6 +50,7 @@ public class MockInvokersSelector extends AbstractRouter {
         if (invocation.getAttachments() == null) {
             return getNormalInvokers(invokers);
         } else {
+            // "invocation.need.mock": mock invoker, 即对 protocol 协议定义为"mock"的bean调用。达到服务降级
             String value = invocation.getAttachments().get(Constants.INVOCATION_NEED_MOCK);
             if (value == null) {
                 return getNormalInvokers(invokers);
