@@ -234,6 +234,7 @@ public abstract class AbstractClusterInvoker<T> implements Invoker<T> {
         // binding attachments into invocation.
         Map<String, String> contextAttachments = RpcContext.getContext().getAttachments();
         if (contextAttachments != null && contextAttachments.size() != 0) {
+            // 把 RpcContext 的属性值放到 RpcInvocation
             ((RpcInvocation) invocation).addAttachments(contextAttachments);
         }
 

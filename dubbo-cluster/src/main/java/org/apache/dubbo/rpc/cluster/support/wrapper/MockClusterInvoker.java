@@ -81,7 +81,6 @@ public class MockClusterInvoker<T> implements Invoker<T> {
             // force:direct mock  强制直接使用mock
             result = doMockInvoke(invocation, null);
         } else {
-            // fail-mock  失败了才使用mock
             try {
                 result = this.invoker.invoke(invocation);
             } catch (RpcException e) {
@@ -92,6 +91,7 @@ public class MockClusterInvoker<T> implements Invoker<T> {
                 if (logger.isWarnEnabled()) {
                     logger.warn("fail-mock: " + invocation.getMethodName() + " fail-mock enabled , url : " + directory.getUrl(), e);
                 }
+                // fail-mock  调用失败才使用mock
                 result = doMockInvoke(invocation, e);
             }
         }
