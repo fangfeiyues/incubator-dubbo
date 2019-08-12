@@ -8,7 +8,7 @@ package org.apache.dubbo.rpc;
 
 import org.apache.dubbo.common.extension.ExtensionLoader;
 
-public class Protocol$Adaptive implements org.apache.dubbo.rpc.Protocol {
+public class Protocol$Adaptive implements Protocol {
     public void destroy() {
         throw new UnsupportedOperationException(
                 "The method public abstract void org.apache.dubbo.rpc.Protocol.destroy() of interface org.apache.dubbo"
@@ -21,8 +21,8 @@ public class Protocol$Adaptive implements org.apache.dubbo.rpc.Protocol {
                         + ".dubbo.rpc.Protocol is not adaptive method!");
     }
 
-    public org.apache.dubbo.rpc.Invoker refer(java.lang.Class arg0, org.apache.dubbo.common.URL arg1)
-            throws org.apache.dubbo.rpc.RpcException {
+    public Invoker refer(Class arg0, org.apache.dubbo.common.URL arg1)
+            throws RpcException {
         if (arg1 == null) {
             throw new IllegalArgumentException("url == null");
         }
@@ -33,13 +33,13 @@ public class Protocol$Adaptive implements org.apache.dubbo.rpc.Protocol {
                     "Failed to get extension (org.apache.dubbo.rpc.Protocol) name from url (" + url.toString()
                             + ") use keys([protocol])");
         }
-        org.apache.dubbo.rpc.Protocol extension = (org.apache.dubbo.rpc.Protocol) ExtensionLoader.getExtensionLoader(
-                org.apache.dubbo.rpc.Protocol.class).getExtension(extName);
+        Protocol extension = (Protocol) ExtensionLoader.getExtensionLoader(
+                Protocol.class).getExtension(extName);
         return extension.refer(arg0, arg1);
     }
 
-    public org.apache.dubbo.rpc.Exporter export(org.apache.dubbo.rpc.Invoker arg0)
-            throws org.apache.dubbo.rpc.RpcException {
+    public Exporter export(Invoker arg0)
+            throws RpcException {
         if (arg0 == null) {
             throw new IllegalArgumentException("org.apache.dubbo.rpc.Invoker argument == null");
         }
@@ -53,8 +53,8 @@ public class Protocol$Adaptive implements org.apache.dubbo.rpc.Protocol {
                     "Failed to get extension (org.apache.dubbo.rpc.Protocol) name from url (" + url.toString()
                             + ") use keys([protocol])");
         }
-        org.apache.dubbo.rpc.Protocol extension = (org.apache.dubbo.rpc.Protocol) ExtensionLoader.getExtensionLoader(
-                org.apache.dubbo.rpc.Protocol.class).getExtension(extName);
+        Protocol extension = (Protocol) ExtensionLoader.getExtensionLoader(
+                Protocol.class).getExtension(extName);
         return extension.export(arg0);
     }
 }

@@ -38,7 +38,7 @@ public class LeastActiveLoadBalance extends AbstractLoadBalance {
 
     @Override
     protected <T> Invoker<T> doSelect(List<Invoker<T>> invokers, URL url, Invocation invocation) {
-        // Number of invokers
+        // Number of invokers invoker总数
         int length = invokers.size();
         // The least active value of all invokers
         int leastActive = -1;
@@ -56,7 +56,7 @@ public class LeastActiveLoadBalance extends AbstractLoadBalance {
         boolean sameWeight = true;
 
 
-        // Filter out all the least active invokers
+        // Filter out all the least active invokers 遍历所有的provider invoker
         for (int i = 0; i < length; i++) {
             Invoker<T> invoker = invokers.get(i);
             // Get the active number of the invoke
@@ -66,10 +66,11 @@ public class LeastActiveLoadBalance extends AbstractLoadBalance {
             // save for later use
             weights[i] = afterWarmup;
             // If it is the first invoker or the active number of the invoker is less than the current least active number
+            // 有更少活跃的 则使用这个invoker
             if (leastActive == -1 || active < leastActive) {
-                // Reset the active number of the current invoker to the least active number
+                // Reset the active number of the current invoker to the least active number 重置leastActive
                 leastActive = active;
-                // Reset the number of least active invokers
+                // Reset the number of least active invokers  重置数量
                 leastCount = 1;
                 // Put the first least active invoker first in leastIndexes
                 leastIndexes[0] = i;
