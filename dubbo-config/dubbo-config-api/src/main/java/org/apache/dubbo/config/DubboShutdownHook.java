@@ -42,7 +42,7 @@ public class DubboShutdownHook extends Thread {
     /**
      * Has it already been destroyed or not?
      */
-    private final AtomicBoolean destroyed= new AtomicBoolean(false);
+    private final AtomicBoolean destroyed = new AtomicBoolean(false);
 
     private DubboShutdownHook(String name) {
         super(name);
@@ -65,6 +65,7 @@ public class DubboShutdownHook extends Thread {
      */
     public void register() {
         if (!registered.get() && registered.compareAndSet(false, true)) {
+            // 为JVM添加 ShutDownHook
             Runtime.getRuntime().addShutdownHook(getDubboShutdownHook());
         }
     }

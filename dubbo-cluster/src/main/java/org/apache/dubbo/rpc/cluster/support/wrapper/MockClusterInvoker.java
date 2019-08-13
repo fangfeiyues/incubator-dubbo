@@ -81,6 +81,7 @@ public class MockClusterInvoker<T> implements Invoker<T> {
             // force:direct mock  强制直接使用mock
             result = doMockInvoke(invocation, null);
         } else {
+            // value == true
             try {
                 result = this.invoker.invoke(invocation);
             } catch (RpcException e) {

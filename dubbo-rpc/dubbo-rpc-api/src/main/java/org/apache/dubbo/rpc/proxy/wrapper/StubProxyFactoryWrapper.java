@@ -63,6 +63,7 @@ public class StubProxyFactoryWrapper implements ProxyFactory {
     @Override
     @SuppressWarnings({"unchecked", "rawtypes"})
     public <T> T getProxy(Invoker<T> invoker) throws RpcException {
+        // InvokerInvocationHandler 代理对象
         T proxy = proxyFactory.getProxy(invoker);
         if (GenericService.class != invoker.getInterface()) {
             URL url = invoker.getUrl();
@@ -82,6 +83,7 @@ public class StubProxyFactoryWrapper implements ProxyFactory {
                         throw new IllegalStateException("The stub implementation class " + stubClass.getName() + " not implement interface " + serviceType.getName());
                     }
                     try {
+                        // 把proxy在构造函数中注入到 xxxStub 类中
                         Constructor<?> constructor = ReflectUtils.findConstructor(stubClass, serviceType);
                         proxy = (T) constructor.newInstance(new Object[]{proxy});
                         //export stub service
@@ -90,6 +92,7 @@ public class StubProxyFactoryWrapper implements ProxyFactory {
                             urlBuilder.addParameter(Constants.STUB_EVENT_METHODS_KEY, StringUtils.join(Wrapper.getWrapper(proxy.getClass()).getDeclaredMethodNames(), ","));
                             urlBuilder.addParameter(Constants.IS_SERVER_KEY, Boolean.FALSE.toString());
                             try {
+                                // ???
                                 export(proxy, (Class) invoker.getInterface(), urlBuilder.build());
                             } catch (Exception e) {
                                 LOGGER.error("export a stub service error.", e);

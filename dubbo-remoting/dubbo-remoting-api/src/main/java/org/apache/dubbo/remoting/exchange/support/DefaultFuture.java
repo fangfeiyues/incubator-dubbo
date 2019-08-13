@@ -329,6 +329,7 @@ public class DefaultFuture implements ResponseFuture {
         lock.lock();
         try {
             response = res;
+            // signalAll()全部唤起重新竞争避免非公平下有些一直无法唤醒
             done.signalAll();
         } finally {
             lock.unlock();

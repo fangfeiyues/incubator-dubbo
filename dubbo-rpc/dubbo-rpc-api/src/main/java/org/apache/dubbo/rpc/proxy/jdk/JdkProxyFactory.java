@@ -31,7 +31,7 @@ import java.lang.reflect.Proxy;
 public class JdkProxyFactory extends AbstractProxyFactory {
 
     /**
-     * 消费者的第二步。通过 注册-filter-开启netty 拿到 DubboInvoker
+     * 消费者的第二步。通过 注册-filter-开启netty 拿到 DubboInvoker。
      *
      * @param invoker
      * @param interfaces
