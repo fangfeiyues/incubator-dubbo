@@ -127,9 +127,11 @@ public class DubboCodec extends ExchangeCodec {
                     if (channel.getUrl().getParameter(
                             Constants.DECODE_IN_IO_THREAD_KEY,
                             Constants.DEFAULT_DECODE_IN_IO_THREAD)) {
+                        // 在I/O线程中直接解码
                         inv = new DecodeableRpcInvocation(channel, req, is, proto);
                         inv.decode();
                     } else {
+                        // 交给dubbo业务线程池解码
                         inv = new DecodeableRpcInvocation(channel, req,
                                 new UnsafeByteArrayInputStream(readMessageData(is)), proto);
                     }
@@ -172,18 +174,25 @@ public class DubboCodec extends ExchangeCodec {
     protected void encodeRequestData(Channel channel, ObjectOutput out, Object data, String version) throws IOException {
         RpcInvocation inv = (RpcInvocation) data;
 
+        // 1. 版本号。用于支持服务端版本隔离和服务端隐式参数透传
         out.writeUTF(version);
+        // 2. 接口
         out.writeUTF(inv.getAttachment(Constants.PATH_KEY));
+        // 3.
         out.writeUTF(inv.getAttachment(Constants.VERSION_KEY));
 
+        // 4. 方法
         out.writeUTF(inv.getMethodName());
+        // 5. 参数类型
         out.writeUTF(ReflectUtils.getDesc(inv.getParameterTypes()));
         Object[] args = inv.getArguments();
         if (args != null) {
             for (int i = 0; i < args.length; i++) {
+                // 6. 参数值
                 out.writeObject(encodeInvocationArgument(channel, inv, i));
             }
         }
+        // 在这里隐式传参 如扩展filter写入invocation的值
         out.writeObject(RpcUtils.getNecessaryAttachments(inv));
     }
 
